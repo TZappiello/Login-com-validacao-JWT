@@ -1,6 +1,6 @@
 <div class="container">
     <img src="/assets/logo.png" alt="Logo da tela de Login">
-    <form>
+    <form [formGroup]="formAuth" (ngSubmit)="submitForm()">
         <label>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -8,7 +8,11 @@
                     fill="#4A4A4A" />
             </svg>
 
-            <input type="email" placeholder="Email" required>
+            <input 
+            type="email" 
+            formControlName="email"
+            placeholder="Email" 
+            required>
         </label>
         <label>
             <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,11 +21,15 @@
                     fill="#4A4A4A" />
             </svg>
 
-            <input type="password" placeholder="Senha" required>
+            <input 
+            type="password" 
+            formControlName="password"
+            placeholder="Senha" 
+            required>
         </label>
 
-        <button class="btn-vermelhor">Login</button>
+        <button class="btn-vermelhor" [disabled]="formAuth.invalid">Login</button>
     </form>
 
-    <span class="msg-error">Usuário ou senha Incorreta</span>
+    <span class="msg-error" *ngIf="formAuth.errors">Usuário ou senha Incorreta</span>
 </div>
