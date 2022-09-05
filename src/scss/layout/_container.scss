@@ -1,0 +1,15 @@
+.container{
+    width: 500px;
+    min-height: 320px;
+    padding: 25px 40px;
+    
+    background: $branco;
+    box-shadow: opx 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    box-sizing: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
