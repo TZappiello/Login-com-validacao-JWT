@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -11,12 +12,15 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private router: Router
   ) { }
 
-  sign(payload: {email: string, passwor: string} ): Observable<any>{
-    return this.http.post(`${this.url}/sign`, payload).pipe(
+  sign(payload: {email: string, password: string} ): Observable<any>{
+    return this.http.post<{token: string}>(`${this.url}/sign`, payload).pipe(
       map((res)=> {
-        return console.log(res)
+        localStorage.removeItem('access_token');
+        localStorage.setItem('access_token', res.token);
+        return this.router.navigate(['/admin']);
       }),
       catchError((e)=>{
         if(e.error.message)return throwError(() => e.error.message);
@@ -24,5 +28,9 @@ export class AuthService {
         return throwError(() => "Servidor não encontrado ou sem conexão! Favor tente mais tarde!");
       })
     )
+  }
+  logout(){
+    localStorage.removeItem('access_token');
+    return this.router.navigate(['']);
   }
 }
