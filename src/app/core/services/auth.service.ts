@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,14 @@ export class AuthService {
   logout(){
     localStorage.removeItem('access_token');
     return this.router.navigate(['']);
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('access_token');
+
+    if(!token) return false;
+
+    const helper = new JwtHelperService();   
+    return !helper.isTokenExpired(token); 
   }
 }
